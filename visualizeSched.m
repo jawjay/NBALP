@@ -6,9 +6,10 @@ function [mark ] = visualizeSched(sched,varagin )
 mark = 1
 team = 1
 
-games = find(sched>0);
-[home,away,day ] = ind2sub([30,30,170],games);
-team1 = find(home==1 | away == 1)
+games = find(sched>0);%a 1 indicates a game is played
+
+[home,away,day ] = ind2sub([30,30,170],games); % find 3d index of these games
+team1 = find(home==1 | away == 1) % find games
 versus = day(team1)
 
 mark = 1
