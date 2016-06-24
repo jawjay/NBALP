@@ -119,25 +119,41 @@
 			for team =[1 2 3 4] % 5th team is uneeded at this point
 				ind = (5*division)+team+(15*conference);
 				
-				%NEED A FOR LOOP FOR EACH TEAM!!! DUH
+				% loop through other teams in the division to add 2 games
+				% each
 				for other_team = league.indiv_greater(ind)
 					home_c = teamDay2coord(ind,other_team,1:days);
 					away_c = teamDay2coord(other_team,ind,1:days);
-
 					cell_constraints{end+1} = home_c;	
 					cell_constraints{end+1} = away_c;
 					beq(end+1) = 2; %#ok<*SAGROW> % 41 away game
 					beq(end+1) = 2; 
-
 					constraint_lengths(end+1) = days;
 					constraint_lengths(end+1) = days;
 
 					current_constraint = current_constraint + 2;
 				end
-				
+				% add constraint for other conferene
+				% only add home games( away is home from other team)
+				for other_team = league.other_conf(ind)
+					home_c = teamDay2coord(ind,other_team,1:days);
+					cell_constraints{end+1} = home_c;
+					beq(end+1) = 1; 
+					constraint_lengths(end+1) = days;
+				end
 			end
 		end
 	end
+%% HAVE TO ADD CONSTRAINS FOR TEAMS MOD 5
+	for ind = [ 5 10 15 20 25 30]
+		for other_team = league.other_conf(ind)
+			home_c = teamDay2coord(ind,other_team,1:days);
+			cell_constraints{end+1} = home_c;
+			beq(end+1) = 1; 
+			constraint_lengths(end+1) = days;
+		end
+	end
+
 % 	
 	
 %% Convert cells of constraints to arrays for sparsce constraint matrix
@@ -181,10 +197,10 @@
 	[home,away,day ] = ind2sub([30,30,170],games);
 	
 	%% Program Completion
-	mark = 1 % program completed
+	
 %% Test Answers
  
-	testc = @(x) sum(matrix_answer(cell_constraints_first{x}))
-	getc = @(x) find(matrix_answer(cell_constraints_first{x}))
+% 	testc = @(x) sum(matrix_answer(cell_constraints_first{x}))
+% 	getc = @(x) find(matrix_answer(cell_constraints_first{x}))
 
 % arrayfun(@(x) testc(x),1:length(beq))
