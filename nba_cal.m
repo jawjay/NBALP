@@ -36,20 +36,20 @@
 % 		Charlotte
 % 		Washington
 % 		Orlando
-% % West 16:30
-% % 	Northwest 16:20
+% West 16:30
+% % Northwest 16:20
 % 		Oklahoma City
 % 		Portland
 % 		Utah
 % 		Denver
 % 		Minnesota
-% % 	Pacific 21:25
+% %	Pacific 21:25
 % 		Golden State
 % 		L.A. Clippers
 % 		Sacramento
 % 		Phoenix
 % 		L.A. Lakers
-% % 	Southwest 26:30
+% %	Southwest 26:30
 % 		San Antonio
 % 		Dallas
 % 		Memphis
