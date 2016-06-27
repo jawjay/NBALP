@@ -103,19 +103,19 @@
 			current_constraint_leq = current_constraint_leq + 1;
 		end
 %% Home and away constraints	
-% 		home_c = teamDay2coord(team,1:30,1:days); %Home games for a specific team for all days of season
-% 		away_c = teamDay2coord(1:30,team,1:days);% Away games for a specific team for all days of season
-% 
-% 		cell_constraints{end+1} = home_c;	
-% 		cell_constraints{end+1} = away_c;
-% 		
-% 		beq(end+1) = 41; %#ok<*SAGROW> % 41 away game
-% 		beq(end+1) = 41; % 41 home games... Also ensures 82 total
-% 		
-% 		constraint_lengths(end+1) = teams*days;
-% 		constraint_lengths(end+1) = teams*days;
-% 		
-% 		curent_constraint = current_constraint + 2;
+		home_c = teamDay2coord(team,1:30,1:days); %Home games for a specific team for all days of season
+		away_c = teamDay2coord(1:30,team,1:days);% Away games for a specific team for all days of season
+
+		cell_constraints{end+1} = home_c;	
+		cell_constraints{end+1} = away_c;
+		
+		beq(end+1) = 41; %#ok<*SAGROW> % 41 away game
+		beq(end+1) = 41; % 41 home games... Also ensures 82 total
+		
+		constraint_lengths(end+1) = teams*days;
+		constraint_lengths(end+1) = teams*days;
+		
+		curent_constraint = current_constraint + 2;
 	end
 %% 4 games against the other 4 division opponents,( two home and two away )
 	% loop through divs from nba class without repetition
@@ -126,6 +126,7 @@
 				
 				% loop through other teams in the division to add 2 games
 				% each
+				%% Constraint for division
 				for other_team = league.indiv_greater(ind)
 					home_c = teamDay2coord(ind,other_team,1:days);
 					away_c = teamDay2coord(other_team,ind,1:days);
@@ -138,6 +139,23 @@
 
 					current_constraint = current_constraint + 2;
 				end
+				%% Constraint for OOD conference oppenents ( 4 games )
+					% only do home team
+				for other_team = league.get4games(ind)
+					home_c = teamDay2coord(ind,other_team,1:days);
+					cell_constraints{end+1} = home_c;
+					beq(end+1) = 2;
+					constraint_lengths(end+1) = days;
+				end
+				%% Constraint for OOD conf opponenets ( 3 games )
+				for other_team = league.get3games(ind)
+					both_c = [teamDay2coord(ind,other_team,1:days) teamDay2coord(other_team,ind,1:days)];
+					cell_constraints{end+1} = both_c;
+					beq(end+1) = 3;
+					constraint_lengths(end+1) = 2*days;
+				end
+				
+				%% Constraint for opposite conference
 				% add constraint for other conferene
 				% only add home games( away is home from other team)
 				for other_team = league.other_conf(ind)
@@ -156,6 +174,19 @@
 			cell_constraints{end+1} = home_c;
 			beq(end+1) = 1; 
 			constraint_lengths(end+1) = days;
+		end
+			
+		for other_team = league.get4games(ind)
+			home_c = teamDay2coord(ind,other_team,1:days);
+			cell_constraints{end+1} = home_c;
+			beq(end+1) = 2;
+			constraint_lengths(end+1) = days;
+		end
+		for other_team = league.get3games(ind)
+			both_c = [teamDay2coord(ind,other_team,1:days) teamDay2coord(other_team,ind,1:days)];
+			cell_constraints{end+1} = both_c;
+			beq(end+1) = 3;
+			constraint_lengths(end+1) = 2*days;
 		end
 	end
 
