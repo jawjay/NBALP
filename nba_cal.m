@@ -59,8 +59,13 @@
 	days = 170; % Length of season ( currently actual days of week are of  no factor)
 	teams = 30; 
 	total_vars = days*teams*teams; 
+	
+	%% Init  NBA class 
 	league = nba_league();
 	divs = league.divs();
+	load('threegames.mat')% holds data on irregular matchups
+		% set(league,'threegames',team_3games);
+	league.threegames = team_3games;
 	beq = [];
 	bleq = [];
 	cell_constraints = {};

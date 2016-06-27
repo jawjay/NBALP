@@ -8,6 +8,7 @@ classdef nba_league
 	divs   % division 1,2,3
 	confs % conference 1,2
 	
+	threegames		%hold data about irregular matchups
 	end
 	
 	methods
@@ -15,6 +16,7 @@ classdef nba_league
 			n.all_teams = 1:30;
 			n.confs = [1:15;16:30];
 			n.divs = cat(3,[1:5;6:10;11:15],[16:20;21:25;26:30]);
+			n.threegames = zeros(30,4);
 		end
 		function div = div_at(n,c)
 				if c < 16
