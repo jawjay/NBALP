@@ -220,6 +220,7 @@
 	f = ones(1,total_vars);  
 
 %% Define main matricies
+	
 	Aeq = sparse( constraint_indicies,variable_indicies,ones(size(constraint_indicies)));
 	Aleq = sparse( constraint_indicies_leq,variable_indicies_leq,ones(size(constraint_indicies_leq)));
 %% Run Linea Program
